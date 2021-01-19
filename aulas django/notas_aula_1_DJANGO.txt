@@ -1,0 +1,67 @@
+to create a directory to use django you should use inside a folder the comand
+
+- django-admin startproject (the name of the project)
+
+this will create for u a file called manage.py (use to create aplications or runserver) and an intern folder with the same name as your project, there u can control the views, URl's and a lot more.
+with the comand 
+
+- 'pyhton manage.py runserver' 
+
+in the folder that has manage.py using the cmd u will get an port that is your local server, copy and paste in the google. u can run in a diferent port u can type after the comand.
+
+inside the django you need to start an aplication to start to develop, using the comand 
+
+- python manage.py startapp (name_of_the_app),
+
+this will create for u a folder that will have all the aplication you'll create.
+
+inside the file views.py on main folder, that's the file you will send your HTTP request to show, there will be already an import but we'll add another:
+(inside views from your app)
+- from django.http import HttpResponse
+
+them create a function, and that function will be our views, you can have a lot of them but not now;
+an example from a function can be:
+(inside views from your app)
+
+def index (response):
+    return HttpResponse('<h1>msg</h1>')
+
+the function caled index will get the response from URL and after thar will response a Http inside the braces you can code with HTML with you want but later we will see this better; 
+
+INSIDE THE APP FOLDER YOU SHOLD CREATE A PY.FILE CALLED 'urls.py' and this will represent the Urls from our views, inside this file you will import lilje bellow:
+
+-from django.urls import path
+
+-from . import views
+
+and them you create a list with 
+urlpatterns = [
+	path('', views.index, name='index')	
+]
+
+this list that will reffer to our application, else inside those empty quote will refer for which page that shows when have nothing, and that refer to the function called views;
+
+now we will link the mysite with our app, go to the page urls.py inside you project(not your aplication), and them inside the line already create django.urls import path, after path add ,include 
+
+them inside the list called urlpattern inside the same file, you can copy and add the path, them delete the admin inside the quotes, and after you include('app.urls'), this will get the urls inside your app and them show to you, it will be like this:
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('main.urls')), 
+]
+
+To create a new view you can create a def with another name, and the same esctruture as before but now you should go to urls inside main and add a estructure to call the another urls, in my case I create a new view called v1/ and for call this page I add inside urlpattern (
+- urlpatterns = [
+    path('', views.index, name='index'),
+    path('v1/', views.v1, name='index'),
+]
+#becomes that way)
+now if I type innside the URls from my server I will go to the v1 page
+
+
+
+
+ 
