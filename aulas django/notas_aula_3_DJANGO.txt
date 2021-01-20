@@ -1,0 +1,30 @@
+Admin Tutorial
+
+To remember the last notepad we will using the shell, for see what we can do with that, first thing to do, is open the python shell, after that you can import the models from your app, now to get all the objects from your main List, and search for an especific item;
+the best thing you can do now is to create a variable to receive all the values and them work with that variables like I choose as variable the letter 't' an them I get the elements from my list using t.all(); to search for an object use the get so to id = 1 become the command line:
+- t.get(id = 1);
+but another way is to filter the data, so you can use:
+t.filter(name__startswith = 'Pe'), and them show the data that can be equal to Pe, you have tons of double underline to filter so just search what is best for you, this is more used ti check;
+
+to delete an object you can use an variable to get the object in my case I used
+	 del_object = t.get (id=1)
+and them you use the variable to delete the object using:
+	 del_object.delete()
+you can create 2 more itens to your list
+using the command line quit(), you go out from the shell;
+and now we will go to admin-dashboard but for that we need to create a login-account;
+
+to creat a login account you use the command line
+
+- python manage.py createsuperuser
+
+when you create a superuser run the server and go to the URLS if /admin/, enter with your account, and them you probably will have a user and groups, the users is the ones that have acess, the same groups, now we need to give the dashboard an acess to show our database, inside your app in the file admin.py, there you will import the Models like the example:
+
+-from .models import ToDoList, Item
+
+and them we need to code a line after the comment :
+
+-admin.site.register({the name of your list})
+
+them reload your server and go to admin, there you will see your lists, and you can add how much lists you want
+

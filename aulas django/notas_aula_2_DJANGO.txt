@@ -1,1 +1,131 @@
-settings.py scroll down to find 
+settings.py scroll down to find the list called Installed Apps, them add to the list the line
+
+- '(name from your app)'.apps.MainConfig
+
+them go to the root folder that has your manage.py and open an cmd there, to run the command line 
+
+- python managae.py migrate 
+(if you use linux or mac the commando probably will change just go to https://www.djangoproject.com/ to find the command line you need)
+
+know we will create models in our database, go to models.py inside your app to define the atributes that comes with our information, the models are create with class and using the import models from django probably you already have;
+for example I create a model called ToDoList
+
+- class ToDoList(models.Model):
+	name = models.CharField(max_length=200)
+
+inside the models we should understand that we should give to our atributes the class that he is, if is a number or a charset (learn a little about sqlite3 to work better); them you can create methodes to define how to work with your data, for example to return the atribute name from my ToDoList:
+
+class ToDoList(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+like that, now create a new model to be a Foreign Key, and to do that I create a model called Item, and them I get the Key from ToDoList:
+
+-class Item(models.model):
+    todolist = models.ForeignKey(ToDoList, on_delete=models.CASCADE)
+
+the Item model has no especific type and even the Charfield has no influence because it's an object  and Items will help to see work with that, on_delete (if we delete ToDoList will delete Items as well), we should tell django that we have a new model, using cmd you will type inside the folder with manage.py the command line 
+
+- python manage.py makemigrations (name app)
+
+it will show something like this
+(name of app)\migrations\0001_initial.py
+    - Create model ToDoList
+    - Create model Item
+
+basic you make a change save the change and now aplly to our project, but to aplly at the end of this, use the command line 
+
+- python manage.py migrate 
+
+now inside of your app inside the folder called migrations, you have some folders, and it teels you the exact migrations that you have, probably with ID and everything;
+
+/* WORKING WITH DATABASES (I truly recomend that you should know the basic from SQL language)*/
+
+to open the shell to work with our DB using the cmd 
+
+- python manage.py shell
+
+the first step is to import our models, using 
+
+- from (app).models import (the name from your classes);
+
+example:
+	from main.models import Item, ToDoList
+
+and now we will work with DB
+
+first make an variable that will create an object, in my case I will do like bellow;
+
+{create an object}
+t = ToDoList(name="Pedro List")
+t.save()
+
+{to see all the objects do you have inside an especific  table}
+
+(your list name).objects.all()
+
+{to see the specific id from an object}
+
+- ToDoList.objects.get(id = 1)
+
+(list name).objects.get({the parameter you want})
+
+to query a objects that have the same input like:
+ToDoList.objects.get(name = "Pedro List")
+
+but if the query don't exist it won't match and the message will be does not exist
+
+to see your ForeignKey working you can use the same variable that you use to save the object and get to see what do you have inside Item
+
+- t.item_set.all()
+
+but to create a Item will be diferent from the way we create the ToDoList, because it's an extension;
+to create the command line will be 
+
+- (variable).(foreignKey)_set.create({complete with the extensions})
+
+t.item_set.create(text="Goto mall", complete=False)
+
+and now we create the extension Item and you can se using t.item_set.all(), to get an especific item you can use t.item_set.get(id=1)
+
+/*Display Information in browser*/
+We can get our information and pass the function inside our views, to show that you can delete the funcrtion and path v1 if you want, and besides I get an empty path I can get the Id, using the command bellow:
+
+-urlpatterns = [
+    path('<int:id>', views.index, name='index'),
+]
+get the Id and pass to Index
+
+And now going to the views.py inside (app), you should add as parameter the id, and to show you can print with %s the Id inside the page
+
+-def index (response, id):
+    return HttpResponse('<h1>%s</h1>' %id)
+
+but if you don't want to show the Id, and else show the object of this id, you should start import the models, and now use the informaton inside the models to show to user, an example bellow:(inside (your app))
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import ToDoList, Item
+
+def showName(response, id):
+    ls = ToDoList.objects.get(id=id)
+    return HttpResponse('<h1>{}</h1>'.format(ls.name))
+
+this way you will get the value that you expect; 
+to search by name you can do that to using the command bellow(REMENBER WITH ARE USING DIFERENT NAMES CHANGE THEM)
+
+def showNameDire(response, name):
+    ls = ToDoList.objects.get(name=name)
+    return HttpResponse('<h1>{}</h1>'.format(ls.name))
+
+to get the items you create a variable to receive the Item and show like the example bellow that I get by the name and use that to show the Id:
+
+- def showNameDire(response, name):
+    ls = ToDoList.objects.get(name=name)
+    items = ls.item_set.get(id=1)
+    return HttpResponse('<h1>{}</h1>'.format(ls.name, item.text))
+
+using this simple comands we can show our data to the user using the URLS
+
