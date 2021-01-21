@@ -1,0 +1,90 @@
+templates.
+
+you can use the same blank path to work  with that or create a new one and a new view, now inside your folder's app, create a new folder called anithing (it will containe our templates [HTML]), and now a new folder to your aplication with his name, I don't know why but this is how Django Works;
+them you can create a new html file I will called base, you can add some stuff in there but for now, don't code so much just the necessary to you know what page you are, for next I will create a new file called home.html;
+and at home we will work with heridated templates, and the base will be the template that has inside every page, to don't need to code a lot of times, so we heridate the base template to every other pages in just one line, to do that the you need to use the Django Sintax:
+
+{% extends '((name of the app)/(base template.html))'%}, 
+
+as the example bellow:
+
+{% extends 'main/base.html' %}; 
+
+and to rendering this templates we will not use the HttpResponse inside the views anymore, we will use the reserved word render(), wand inside them you should write as bellow:
+
+ render(response, '(the path to your base template)', {}), as the example bellow;
+
+- render(response, 'main/base.html', {})
+
+and you can change te Html as the example bellow:
+
+-  render(response, 'main/home.html', {})
+
+always remember to return, if you want something more dinamic you can use the Id from the object as a page change using the command that you learn to get the ID in the Url and render based inside this command;
+
+inside thos brackets that you open you can pass values from your database to your Html to show, by doing that you need to inside the Html, open a double brackets with the variable name that will passing to Html as the example bellow:
+HTML
+<body>
+    <p>
+        {{name}}
+    </p>
+</body>
+
+Django Views
+return render(response, 'main/base.html', {'name': ls.name})
+
+THE ls is a variable that I get the Id from my list;
+
+
+NOW inside our base page we can delete the <p> tag it was only to show how to work with, and we will open a div with an id and name, and inside of this div we ewill create a block as showed below:
+	{% block content %}
+        {% endblock %}
+inside this block we will show to the user what he want to know, or even change our page as example:
+
+base Html:
+-
+<body>
+    <div id='content', name='content'>
+        {% block content %}
+        HELLO
+        {% endblock %}
+    </div>
+</body>
+-
+home Html:
+-
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1>Home Page</h1>
+{% endblock %}
+-
+and them it will show the base page but when we change the page to the home it will be Home Page, now we need to learn how to work better with those blocks, you will not show your base.html to the users it's to work with heriditage, now I create a new file called list, them I get the extend block from our base page, and inside the block title we can show by using python code as I show bellow:
+
+-{% block content %}
+    <h1>
+        {{ls.name}}
+    </h1>
+    <ul>
+    {% for item in ls.item_set.all %}
+        <li>{{item.text}}</li>
+    {% endfor %}
+    </ul>
+{% endblock %} 
+
+I can open a bracket to run python codes like for and whatever you want but you don't open the (), else it doesn't work, you will end the for and inside the tag <li>, I showed all the elements I have inside my items, as an example to show an if statement I used the same for
+
+{% block content %}
+    <h1>
+        {{ls.name}}
+    </h1>
+    <ul>
+    {% for item in ls.item_set.all %}
+        {% if item.complete == False %}
+        <li>{{item.text}}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endblock %} 
+
+again if ident it will be better but is very simple to open and close python test
