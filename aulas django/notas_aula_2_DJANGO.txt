@@ -1,10 +1,13 @@
 settings.py scroll down to find the list called Installed Apps, them add to the list the line
 
-- '(name from your app)'.apps.MainConfig
+- '(name from your app)'.apps.(name from app)Config
+examples
+'Main.apps.MainConfig',
+'appPort.apps.AppportConfig',
 
 them go to the root folder that has your manage.py and open an cmd there, to run the command line 
 
-- python managae.py migrate 
+- python manage.py migrate 
 (if you use linux or mac the commando probably will change just go to https://www.djangoproject.com/ to find the command line you need)
 
 know we will create models in our database, go to models.py inside your app to define the atributes that comes with our information, the models are create with class and using the import models from django probably you already have;

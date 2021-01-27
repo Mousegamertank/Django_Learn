@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedro Site</title>
+    <title>Django Tutorial</title>
     <link rel="stylesheet" href="css/home.css" type="css/text">
 </head>
 <body>
+    {% block title %}
+
+    {% endblock %}
     <div id='content', name='content'>
         {% block content %}
         Hello

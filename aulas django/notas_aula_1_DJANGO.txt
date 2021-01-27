@@ -26,7 +26,7 @@ an example from a function can be:
 def index (response):
     return HttpResponse('<h1>msg</h1>')
 
-the function caled index will get the response from URL and after thar will response a Http inside the braces you can code with HTML with you want but later we will see this better; 
+the function caled index will get the response from URL and after that will response a Http inside the braces you can code with HTML with you want but later we will see this better; 
 
 INSIDE THE APP FOLDER YOU SHOLD CREATE A PY.FILE CALLED 'urls.py' and this will represent the Urls from our views, inside this file you will import lilje bellow:
 
