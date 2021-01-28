@@ -6,6 +6,7 @@ urlpatterns = [
     path('<int:id>', views.index, name='index'),
     path('v1/', views.v1, name='index'),
     path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
     path('create/', views.create, name="create")
 ]
    # path('<int:id>', views.showId, name='index'),

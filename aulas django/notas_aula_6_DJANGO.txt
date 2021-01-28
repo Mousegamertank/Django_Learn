@@ -1,0 +1,46 @@
+To create a new Item (table that has a Foreign Key), we can still stay inside the create.html, but I made the list.html an there I will use because it shows to me what Items I have, them inside there I used the tag <forms> inside them I show my list and create a button submit, the name and value you can choose but I'll choose save;
+them create a new buton to add an Item, with an input type text, and to the boolean field we should create an input to check I used the checkbox, value, and the name it's quite diferent because we will set the name == to the ID from our item and to do that, we used the atribute name as the "c{{item.id}}", this 'c', this will determinates the c= as the checkbutton, and for the true I will determined that already got checked, dont't forget to check you the csrf_token:
+
+- <h1>
+        {{ls.name}}
+    </h1>
+    <form action="#" method="POST">
+        {% csrf_token %}
+        <ul>
+            {% for item in ls.item_set.all %}
+                {% if item.complete == True %}
+                    <li><input type="checkbox", value="clicked", name ="c{{item.id}}" checked>{{item.text}} - COMPLETE</li>
+                {% else %}
+                    <li><input type="checkbox", value="clicked", name ="c{{item.id}}">{{item.text}} - INCOMPLETE</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    <button type="submit", name="save", value="save">Save</button>
+    <input type="text" name="new"> 
+    <button type="submit", name="newItem", value="newItem">Add Item</button>
+    </form>
+
+This is the way I do inside the list.html;
+
+in this case we have 2 diferent button the save and the newItem, but I wanna check one of them inside the views.py, at first I check if get posted, and them I response the name of button that get clicked, and all the information changes, for example:
+
+if response.method == 'POST':
+        print(response.POST)
+        if response.POST.get('save'):
+            for item in ls.item_set.all():
+                if response.POST.get('c' + str(item.id)) == 'clicked':
+                    item.complete = True
+                else:
+                    item.complete = False
+
+                item.save()
+    
+        elif response.POST.get('newItem'):
+            txt = response.POST.get('new')
+
+            if len(txt) > 2:
+                ls.item_set.create(text=txt, complete=False)
+            else:
+                print('inválid')
+
+we checked if have any changes them we print(in terminal what are we doing), them the test to what button have been pressed, by this knowledge, we know that go to the for and item by item test id the response have been changed, elif, we create a new Item inside the database and list from the items; that's it
