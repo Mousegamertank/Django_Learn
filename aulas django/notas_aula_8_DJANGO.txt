@@ -1,0 +1,1 @@
+Now we will work with sign in and sign out, to our web aplcation, to do that we will need to create another aplication, inside this new aplcation we will go to views create a function that will render a HTML file that has our register, inside the folder that has the urls I will import the sign in, sign out views, After that you can create the html file with the forms

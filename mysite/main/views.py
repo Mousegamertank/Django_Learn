@@ -42,12 +42,15 @@ def create(response):
 
         if form.is_valid():
             n = form.cleaned_data["name"]
-            t = ToDoList(name=n)
-            t.save()
+            response.user.ToDoList_set.create(name=n)
+
         return HttpResponseRedirect("/{}".format(t.id))
     else:
         form = CreateNewList()
     return render(response, 'main/create.html', {"form": form})
+
+def view(response):
+    return render(response, 'main/view.html', {})
 
 #def showId (response, id):
  #   return HttpResponse('<h1>{}</h1>'.format(id))
